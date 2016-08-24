@@ -5,6 +5,7 @@
     android:id="@+id/dotView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:alpha="0.7"
     android:src="@drawable/shape_dot"
     android:visibility="invisible" />
 
