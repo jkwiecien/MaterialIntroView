@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import co.mobiwise.materialintro.animation.MaterialIntroListener;
+import co.mobiwise.materialintro.interaction.MaterialIntroDismissListener;
 import co.mobiwise.materialintro.shape.Focus;
 import co.mobiwise.materialintro.shape.FocusGravity;
 import co.mobiwise.materialintro.view.MaterialIntroView;
@@ -29,7 +29,7 @@ import co.mobiwise.sample.fragment.RecyclerviewFragment;
  * @author Thomas Kioko
  */
 public class ToolbarMenuItemActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, MaterialIntroListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MaterialIntroDismissListener {
 
     private static final String MENU_SHARED_ID_TAG = "menuSharedIdTag";
     private static final String MENU_ABOUT_ID_TAG = "menuAboutIdTag";
@@ -142,13 +142,13 @@ public class ToolbarMenuItemActivity extends AppCompatActivity
                 .performClick(true)
                 .setInfoText(text)
                 .setTarget(view)
-                .setListener(this)
+                .setDismissListener(this)
                 .setUsageId(id)
                 .show();
     }
 
     @Override
-    public void onUserClicked(String materialIntroViewId) {
+    public void onIntroViewDismissed(String materialIntroViewId) {
         switch (materialIntroViewId) {
             case MENU_SEARCH_ID_TAG:
                 showIntro(mIvAbout, MENU_ABOUT_ID_TAG, getString(R.string.guide_setup_profile), FocusGravity.LEFT);

@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import co.mobiwise.materialintro.animation.MaterialIntroListener;
+import co.mobiwise.materialintro.interaction.MaterialIntroDismissListener;
 import co.mobiwise.materialintro.shape.Focus;
 import co.mobiwise.materialintro.shape.FocusGravity;
 import co.mobiwise.materialintro.view.MaterialIntroView;
@@ -17,7 +17,7 @@ import co.mobiwise.sample.R;
 /**
  * Created by mertsimsek on 31/01/16.
  */
-public class FocusFragment extends Fragment implements MaterialIntroListener{
+public class FocusFragment extends Fragment implements MaterialIntroDismissListener {
 
     private static final String INTRO_FOCUS_1 = "intro_focus_1";
     private static final String INTRO_FOCUS_2 = "intro_focus_2";
@@ -48,7 +48,7 @@ public class FocusFragment extends Fragment implements MaterialIntroListener{
                 .setFocusType(focusType)
                 .setDelayMillis(200)
                 .enableFadeAnimation(true)
-                .setListener(this)
+                .setDismissListener(this)
                 .performClick(true)
                 .setInfoText(text)
                 .setTarget(view)
@@ -57,7 +57,7 @@ public class FocusFragment extends Fragment implements MaterialIntroListener{
     }
 
     @Override
-    public void onUserClicked(String materialIntroViewId) {
+    public void onIntroViewDismissed(String materialIntroViewId) {
         if(materialIntroViewId == INTRO_FOCUS_1)
             showIntro(button2,INTRO_FOCUS_2,"This intro view focus on minimum size", Focus.MINIMUM);
         else if(materialIntroViewId == INTRO_FOCUS_2)

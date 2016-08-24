@@ -14,7 +14,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.mobiwise.materialintro.animation.MaterialIntroListener;
+import co.mobiwise.materialintro.interaction.MaterialIntroDismissListener;
 import co.mobiwise.materialintro.shape.Focus;
 import co.mobiwise.materialintro.shape.FocusGravity;
 import co.mobiwise.materialintro.view.MaterialIntroView;
@@ -22,7 +22,7 @@ import co.mobiwise.sample.R;
 import co.mobiwise.sample.adapter.RecyclerViewAdapter;
 import co.mobiwise.sample.model.Song;
 
-public class RecyclerviewFragment extends Fragment implements MaterialIntroListener {
+public class RecyclerviewFragment extends Fragment implements MaterialIntroDismissListener {
 
     private static final String INTRO_CARD = "recyclerView_material_intro";
     private RecyclerView recyclerView;
@@ -54,7 +54,7 @@ public class RecyclerviewFragment extends Fragment implements MaterialIntroListe
                 .setFocusType(Focus.MINIMUM)
                 .setDelayMillis(200)
                 .enableFadeAnimation(true)
-                .setListener(this)
+                .setDismissListener(this)
                 .performClick(true)
                 .setInfoText("This intro focuses on Recyclerview item")
                 .setTarget(recyclerView.getChildAt(2))
@@ -85,7 +85,7 @@ public class RecyclerviewFragment extends Fragment implements MaterialIntroListe
     }
 
     @Override
-    public void onUserClicked(String materialIntroViewId) {
+    public void onIntroViewDismissed(String materialIntroViewId) {
         if (materialIntroViewId.equals(INTRO_CARD)) {
             Toast.makeText(getActivity(), "User Clicked", Toast.LENGTH_SHORT).show();
         }

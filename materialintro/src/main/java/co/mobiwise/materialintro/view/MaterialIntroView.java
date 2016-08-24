@@ -12,7 +12,6 @@ import android.graphics.PorterDuffXfermode;
 import android.os.Build;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,7 +25,7 @@ import android.widget.TextView;
 
 import co.mobiwise.materialintro.animation.AnimationFactory;
 import co.mobiwise.materialintro.animation.AnimationListener;
-import co.mobiwise.materialintro.animation.MaterialIntroListener;
+import co.mobiwise.materialintro.interaction.MaterialIntroDismissListener;
 import co.mobiwise.materialintro.prefs.PreferencesManager;
 import co.mobiwise.materialintro.utils.Constants;
 import co.mobiwise.materialintro.MaterialIntroConfiguration;
@@ -195,7 +194,7 @@ public class MaterialIntroView extends RelativeLayout {
     /**
      * Notify user when MaterialIntroView is dismissed
      */
-    private MaterialIntroListener materialIntroListener;
+    private MaterialIntroDismissListener materialIntroDismissListener;
 
     /**
      * Perform click operation to target
@@ -424,8 +423,8 @@ public class MaterialIntroView extends RelativeLayout {
                 setVisibility(GONE);
                 removeMaterialView();
 
-                if (materialIntroListener != null)
-                    materialIntroListener.onUserClicked(materialIntroViewId);
+                if (materialIntroDismissListener != null)
+                    materialIntroDismissListener.onIntroViewDismissed(materialIntroViewId);
             }
         });
     }
@@ -600,8 +599,8 @@ public class MaterialIntroView extends RelativeLayout {
         this.materialIntroViewId = materialIntroViewId;
     }
 
-    private void setListener(MaterialIntroListener materialIntroListener) {
-        this.materialIntroListener = materialIntroListener;
+    private void setDismissListener(MaterialIntroDismissListener materialIntroDismissListener) {
+        this.materialIntroDismissListener = materialIntroDismissListener;
     }
 
     private void setPerformClick(boolean isPerformClick){
@@ -700,8 +699,8 @@ public class MaterialIntroView extends RelativeLayout {
             return this;
         }
 
-        public Builder setListener(MaterialIntroListener materialIntroListener) {
-            materialIntroView.setListener(materialIntroListener);
+        public Builder setDismissListener(MaterialIntroDismissListener materialIntroDismissListener) {
+            materialIntroView.setDismissListener(materialIntroDismissListener);
             return this;
         }
 

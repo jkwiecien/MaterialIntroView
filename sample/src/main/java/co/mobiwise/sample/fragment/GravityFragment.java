@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import co.mobiwise.materialintro.animation.MaterialIntroListener;
+import co.mobiwise.materialintro.interaction.MaterialIntroDismissListener;
 import co.mobiwise.materialintro.shape.Focus;
 import co.mobiwise.materialintro.shape.FocusGravity;
 import co.mobiwise.materialintro.view.MaterialIntroView;
@@ -17,7 +17,7 @@ import co.mobiwise.sample.R;
 /**
  * Created by mertsimsek on 31/01/16.
  */
-public class GravityFragment extends Fragment implements MaterialIntroListener{
+public class GravityFragment extends Fragment implements MaterialIntroDismissListener {
 
     private static final String INTRO_CARD1 = "intro_card_1";
     private static final String INTRO_CARD2 = "intro_card_2";
@@ -42,7 +42,7 @@ public class GravityFragment extends Fragment implements MaterialIntroListener{
     }
 
     @Override
-    public void onUserClicked(String materialIntroViewId) {
+    public void onIntroViewDismissed(String materialIntroViewId) {
         if(materialIntroViewId == INTRO_CARD1)
             showIntro(cardView2, INTRO_CARD2, "This intro focuses on CENTER.", FocusGravity.CENTER);
         if(materialIntroViewId == INTRO_CARD2)
@@ -59,7 +59,7 @@ public class GravityFragment extends Fragment implements MaterialIntroListener{
                 .performClick(true)
                 .setInfoText(text)
                 .setTarget(view)
-                .setListener(this)
+                .setDismissListener(this)
                 .setUsageId(id) //THIS SHOULD BE UNIQUE ID
                 .show();
     }
