@@ -23,19 +23,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import co.mobiwise.materialintro.animation.AnimationFactory;
-import co.mobiwise.materialintro.animation.AnimationListener;
-import co.mobiwise.materialintro.interaction.MaterialIntroDismissListener;
-import co.mobiwise.materialintro.prefs.PreferencesManager;
-import co.mobiwise.materialintro.utils.Constants;
 import co.mobiwise.materialintro.MaterialIntroConfiguration;
 import co.mobiwise.materialintro.R;
-import co.mobiwise.materialintro.utils.Utils;
+import co.mobiwise.materialintro.animation.AnimationFactory;
+import co.mobiwise.materialintro.animation.AnimationListener;
+import co.mobiwise.materialintro.interaction.MaterialIntroClickListener;
+import co.mobiwise.materialintro.interaction.MaterialIntroDismissListener;
+import co.mobiwise.materialintro.prefs.PreferencesManager;
 import co.mobiwise.materialintro.shape.Circle;
 import co.mobiwise.materialintro.shape.Focus;
 import co.mobiwise.materialintro.shape.FocusGravity;
 import co.mobiwise.materialintro.target.Target;
 import co.mobiwise.materialintro.target.ViewTarget;
+import co.mobiwise.materialintro.utils.Constants;
+import co.mobiwise.materialintro.utils.Utils;
 
 /**
  * Created by mertsimsek on 22/01/16.
@@ -197,6 +198,11 @@ public class MaterialIntroView extends RelativeLayout {
     private MaterialIntroDismissListener materialIntroDismissListener;
 
     /**
+     * Notify user when MaterialIntroView is clicked. Use when performClick can't be used.
+     */
+    private MaterialIntroClickListener materialIntroClickListener;
+
+    /**
      * Perform click operation to target
      * if this is true
      */
@@ -275,7 +281,7 @@ public class MaterialIntroView extends RelativeLayout {
                 if (circleShape != null && circleShape.getPoint().y != 0 && !isLayoutCompleted) {
                     if (isInfoEnabled)
                         setInfoLayout();
-                    if(isDotViewEnabled)
+                    if (isDotViewEnabled)
                         setDotViewLayout();
                     removeOnGlobalLayoutListener(MaterialIntroView.this, this);
                 }
@@ -285,7 +291,7 @@ public class MaterialIntroView extends RelativeLayout {
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener){
+    public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) {
         if (Build.VERSION.SDK_INT < 16) {
             v.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
         } else {
@@ -372,6 +378,10 @@ public class MaterialIntroView extends RelativeLayout {
                     targetView.getView().invalidate();
                 }
 
+                if (isTouchOnFocus && materialIntroClickListener != null) {
+                    materialIntroClickListener.onIntroViewClicked(materialIntroViewId);
+                }
+
                 return true;
             default:
                 break;
@@ -408,7 +418,7 @@ public class MaterialIntroView extends RelativeLayout {
                 else
                     setVisibility(VISIBLE);
             }
-        },delayMillis);
+        }, delayMillis);
 
     }
 
@@ -429,8 +439,8 @@ public class MaterialIntroView extends RelativeLayout {
         });
     }
 
-    private void removeMaterialView(){
-        if(getParent() != null )
+    private void removeMaterialView() {
+        if (getParent() != null)
             ((ViewGroup) getParent()).removeView(this);
     }
 
@@ -475,7 +485,7 @@ public class MaterialIntroView extends RelativeLayout {
 
                 addView(infoView);
 
-                if (!isImageViewEnabled){
+                if (!isImageViewEnabled) {
                     imageViewIcon.setVisibility(GONE);
                 }
 
@@ -572,11 +582,11 @@ public class MaterialIntroView extends RelativeLayout {
         this.isInfoEnabled = isInfoEnabled;
     }
 
-    private void enableImageViewIcon(boolean isImageViewEnabled){
+    private void enableImageViewIcon(boolean isImageViewEnabled) {
         this.isImageViewEnabled = isImageViewEnabled;
     }
 
-    private void enableDotView(boolean isDotViewEnabled){
+    private void enableDotView(boolean isDotViewEnabled) {
         this.isDotViewEnabled = isDotViewEnabled;
     }
 
@@ -599,11 +609,15 @@ public class MaterialIntroView extends RelativeLayout {
         this.materialIntroViewId = materialIntroViewId;
     }
 
-    private void setDismissListener(MaterialIntroDismissListener materialIntroDismissListener) {
-        this.materialIntroDismissListener = materialIntroDismissListener;
+    private void setDismissListener(MaterialIntroDismissListener dismissListener) {
+        this.materialIntroDismissListener = dismissListener;
     }
 
-    private void setPerformClick(boolean isPerformClick){
+    private void setClickListener(MaterialIntroClickListener clickListener) {
+        this.materialIntroClickListener = clickListener;
+    }
+
+    private void setPerformClick(boolean isPerformClick) {
         this.isPerformClick = isPerformClick;
     }
 
@@ -699,12 +713,17 @@ public class MaterialIntroView extends RelativeLayout {
             return this;
         }
 
-        public Builder setDismissListener(MaterialIntroDismissListener materialIntroDismissListener) {
-            materialIntroView.setDismissListener(materialIntroDismissListener);
+        public Builder setDismissListener(MaterialIntroDismissListener dismissListener) {
+            materialIntroView.setDismissListener(dismissListener);
             return this;
         }
 
-        public Builder performClick(boolean isPerformClick){
+        public Builder setClickListener(MaterialIntroClickListener clickListener) {
+            materialIntroView.setClickListener(clickListener);
+            return this;
+        }
+
+        public Builder performClick(boolean isPerformClick) {
             materialIntroView.setPerformClick(isPerformClick);
             return this;
         }
