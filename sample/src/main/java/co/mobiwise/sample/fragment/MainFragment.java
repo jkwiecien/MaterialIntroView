@@ -63,6 +63,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 .setDelayMillis(200)
                 .enableFadeAnimation(true)
                 .setInfoText(text)
+                .setDotViewAlpha(0.3f)
                 .dismissOnTouch(true)
                 .setDismissListener(new MaterialIntroDismissListener() {
                     @Override

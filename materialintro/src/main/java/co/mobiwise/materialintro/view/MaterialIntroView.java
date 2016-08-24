@@ -590,6 +590,11 @@ public class MaterialIntroView extends RelativeLayout {
         this.isDotViewEnabled = isDotViewEnabled;
     }
 
+    private void setDotViewAlpha(float alpha) {
+        if (dotView == null) return;
+        this.dotView.setAlpha(alpha);
+    }
+
     public void setConfiguration(MaterialIntroConfiguration configuration) {
 
         if (configuration != null) {
@@ -700,6 +705,11 @@ public class MaterialIntroView extends RelativeLayout {
 
         public Builder enableDotAnimation(boolean isDotAnimationEnabled) {
             materialIntroView.enableDotView(isDotAnimationEnabled);
+            return this;
+        }
+
+        public Builder setDotViewAlpha(float alpha) {
+            materialIntroView.setDotViewAlpha(alpha);
             return this;
         }
 
