@@ -154,7 +154,7 @@ public class MaterialIntroView extends RelativeLayout {
      * Dot view will appear center of
      * cleared target area
      */
-    private View dotView;
+    private ImageView dotView;
 
     /**
      * Dot View will be shown if
@@ -271,7 +271,7 @@ public class MaterialIntroView extends RelativeLayout {
         textViewInfo.setTextColor(colorTextViewInfo);
         imageViewIcon = (ImageView) layoutInfo.findViewById(R.id.imageview_icon);
 
-        dotView = LayoutInflater.from(getContext()).inflate(R.layout.dotview, null);
+        dotView = (ImageView) LayoutInflater.from(getContext()).inflate(R.layout.dotview, null);
         dotView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -595,6 +595,11 @@ public class MaterialIntroView extends RelativeLayout {
         this.dotView.setAlpha(alpha);
     }
 
+    private void setDotViewColor(int color) {
+        if (dotView == null) return;
+        this.dotView.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+    }
+
     public void setConfiguration(MaterialIntroConfiguration configuration) {
 
         if (configuration != null) {
@@ -710,6 +715,11 @@ public class MaterialIntroView extends RelativeLayout {
 
         public Builder setDotViewAlpha(float alpha) {
             materialIntroView.setDotViewAlpha(alpha);
+            return this;
+        }
+
+        public Builder setDotViewColor(int color) {
+            materialIntroView.setDotViewColor(color);
             return this;
         }
 
