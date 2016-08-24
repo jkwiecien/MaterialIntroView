@@ -8,7 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import java.util.Random;
+
+import co.mobiwise.materialintro.interaction.MaterialIntroClickListener;
+import co.mobiwise.materialintro.interaction.MaterialIntroDismissListener;
 import co.mobiwise.materialintro.prefs.PreferencesManager;
 import co.mobiwise.materialintro.shape.Focus;
 import co.mobiwise.materialintro.shape.FocusGravity;
@@ -18,7 +23,7 @@ import co.mobiwise.sample.R;
 /**
  * Created by mertsimsek on 31/01/16.
  */
-public class MainFragment extends Fragment implements View.OnClickListener{
+public class MainFragment extends Fragment implements View.OnClickListener {
 
     private static final String INTRO_CARD = "material_intro";
 
@@ -43,11 +48,13 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         int id = v.getId();
 
-        if(id == R.id.button_reset_all)
+        if (id == R.id.button_reset_all)
             new PreferencesManager(getActivity().getApplicationContext()).resetAll();
     }
 
-    private void showIntro(View view, String usageId, String text){
+    private void showIntro(View view, String usageId, String text) {
+        Random rd = new Random();
+
         new MaterialIntroView.Builder(getActivity())
                 .enableDotAnimation(true)
                 //.enableIcon(false)
@@ -55,10 +62,22 @@ public class MainFragment extends Fragment implements View.OnClickListener{
                 .setFocusType(Focus.MINIMUM)
                 .setDelayMillis(200)
                 .enableFadeAnimation(true)
-                .performClick(true)
                 .setInfoText(text)
+                .dismissOnTouch(true)
+                .setDismissListener(new MaterialIntroDismissListener() {
+                    @Override
+                    public void onIntroViewDismissed(String materialIntroViewId) {
+                        Toast.makeText(getActivity(), "IntroView DISMISSED", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setClickListener(new MaterialIntroClickListener() {
+                    @Override
+                    public void onIntroViewClicked(String materialIntroViewId) {
+                        Toast.makeText(getActivity(), "IntroView CLICKED", Toast.LENGTH_SHORT).show();
+                    }
+                })
                 .setTarget(view)
-                .setUsageId(usageId) //THIS SHOULD BE UNIQUE ID
+                .setUsageId(usageId + rd.nextInt()) //THIS SHOULD BE UNIQUE ID, making it random to show every time instead just once
                 .show();
     }
 }
