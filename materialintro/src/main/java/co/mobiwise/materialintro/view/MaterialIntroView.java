@@ -208,6 +208,8 @@ public class MaterialIntroView extends RelativeLayout {
      */
     private boolean isPerformClick;
 
+    private boolean canceled;
+
     public MaterialIntroView(Context context) {
         super(context);
         init(context);
@@ -391,13 +393,19 @@ public class MaterialIntroView extends RelativeLayout {
     }
 
     /**
+     * Cancels execution of the delayed intro view. Won't count as a display
+     */
+    public void cancel() {
+        canceled = true;
+    }
+
+    /**
      * Shows material view with fade in
      * animation
      *
      * @param activity
      */
     private void show(Activity activity) {
-
         if (preferencesManager.isDisplayed(materialIntroViewId))
             return;
 
@@ -408,6 +416,8 @@ public class MaterialIntroView extends RelativeLayout {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                if (canceled) return;
+
                 if (isFadeAnimationEnabled)
                     AnimationFactory.animateFadeIn(MaterialIntroView.this, fadeAnimationDuration, new AnimationListener.OnAnimationStartListener() {
                         @Override
@@ -415,8 +425,10 @@ public class MaterialIntroView extends RelativeLayout {
                             setVisibility(VISIBLE);
                         }
                     });
-                else
+                else {
                     setVisibility(VISIBLE);
+                }
+
             }
         }, delayMillis);
 
